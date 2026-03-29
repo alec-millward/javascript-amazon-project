@@ -16,17 +16,22 @@ products.forEach(product => {
   document.querySelector('.js-products-grid').appendChild(clone);  
 });
 
+
 document.querySelectorAll('.js-add-to-cart')
         .forEach(b => {    
           b.addEventListener('click', () => {
             const container = b.closest('.product-container');
-            const quantity = container.querySelector('.product-quantity-container select').value;           
+            const quantity = Number(container.querySelector('.product-quantity-container select').value);           
             const existingItem = cart.find(item => item.productId === b.dataset.productId);
             
             if (existingItem)
               existingItem.quantity += quantity;
             else 
               cart.push({ productId: b.dataset.productId, quantity: quantity });
+
+            const numItems = cart.reduce((total, item) => total + item.quantity, 0);
+          
+            document.querySelector('.js-cart-quantity').textContent = numItems;
           }) 
         });
   
